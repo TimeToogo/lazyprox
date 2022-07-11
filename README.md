@@ -27,3 +27,19 @@ OPTIONS:
             Print version information
 ➜  lazyprox git:(main) 
 ```
+
+### Download
+
+| Targets |
+| `x86_64-unknown-linux-gnu` | 
+| `x86_64-unknown-linux-musl` |
+| `aarch64-unknown-linux-gnu` | 
+| `aarch64-unknown-linux-musl` |
+
+Example:
+
+```sh
+curl https://lazyprox.elliotlevin.dev/lazyprox-x86_64-unknown-linux-musl -O lazyprox
+chmod +x ./lazyprox
+./lazyprox --help
+```
