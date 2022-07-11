@@ -47,7 +47,7 @@ jobs:
       # Deploy artifact to https://lazyprox.elliotlevin.com
       - name: Deploy to S3
         run: >
-          aws s3 cp target/${{matrix.target}}/releases/lazyprox s3://lazyprox/lazyprox-${{matrix.target}}
+          aws s3 cp target/${{matrix.target}}/release/lazyprox s3://lazyprox/lazyprox-${{matrix.target}}
           --acl=public-read 
           --cache-control max-age=31536000
           --metadata-directive REPLACE
