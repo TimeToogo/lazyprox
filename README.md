@@ -27,12 +27,13 @@ OPTIONS:
 
     -V, --version
             Print version information
-➜  lazyprox git:(main) 
+
 ```
 
 ### Download
 
 | Targets |
+|---------|
 | `x86_64-unknown-linux-gnu` | 
 | `x86_64-unknown-linux-musl` |
 | `aarch64-unknown-linux-gnu` | 
@@ -41,7 +42,7 @@ OPTIONS:
 Example:
 
 ```sh
-curl https://lazyprox.elliotlevin.dev/lazyprox-x86_64-unknown-linux-musl -O lazyprox
+curl https://lazyprox.elliotlevin.dev/lazyprox-x86_64-unknown-linux-musl -o lazyprox
 chmod +x ./lazyprox
 ./lazyprox --help
 ```
