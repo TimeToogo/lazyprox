@@ -1,0 +1,56 @@
+
+
+name: build
+
+on:
+  - push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            cross: false
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            cross: true
+            target: x86_64-unknown-linux-musl
+          - os: ubuntu-latest
+            cross: true
+            target: aarch64-unknown-linux-gnu
+          - os: ubuntu-latest
+            cross: true
+            target: aarch64-unknown-linux-musl
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{matrix.target}}
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          use-cross: ${{matrix.cross}}
+          args: --release --all-features --target ${{matrix.target}}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: lazyproxy-${{matrix.target}}
+          path: target/${{matrix.target}}/release/lazyprox
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      # Deploy artifact to https://lazyprox.elliotlevin.com
+      - name: Deploy to S3
+        run: >
+          aws s3 cp target/${{matrix.target}}/releases/lazyprox s3://lazyprox/lazyprox-${{matrix.target}}
+          --acl=public-read 
+          --cache-control max-age=31536000
+          --metadata-directive REPLACE
+        shell: bash
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id=E3P4EHT056PZ02 --paths '/*'
