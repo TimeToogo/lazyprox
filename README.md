@@ -1,6 +1,8 @@
 # lazyprox
 Minimal TCP proxy with an exit-on-idle timeout configuration option. Useful for sparing resources on idling devcontainers.
 
+**⚠️ Warning:** This was built in a night to scratch a personal itch, please remove any expectation of this working for your use-case or support.
+
 ### Usage
 
 ```
